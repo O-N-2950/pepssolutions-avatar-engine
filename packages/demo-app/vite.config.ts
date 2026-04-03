@@ -12,5 +12,5 @@ export default defineConfig({
     },
   },
   server: { port: 5173, host: true },
-  build: { outDir: "dist", sourcemap: true },
+  build: { outDir: "dist", sourcemap: false, target: "es2020" },
 })
