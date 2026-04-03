@@ -1,17 +1,11 @@
 [phases.setup]
 nixPkgs = ["nodejs_20"]
-nixLibs = []
-cmds = ["npm install -g pnpm@9"]
 
 [phases.install]
-cmds = ["pnpm install --frozen-lockfile=false"]
+cmds = ["cd packages/demo-app && npm install"]
 
 [phases.build]
-cmds = [
-  "pnpm --filter @peps/avatar-engine run build || true",
-  "pnpm --filter @peps/voice-avatar-bridge run build || true",
-  "pnpm --filter @peps/demo-app run build"
-]
+cmds = ["cd packages/demo-app && npx vite build"]
 
 [start]
-cmd = "npx serve packages/demo-app/dist -p $PORT -s"
+cmd = "cd packages/demo-app && npx serve dist -p $PORT -s"
