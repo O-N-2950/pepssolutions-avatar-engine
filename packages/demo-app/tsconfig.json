@@ -13,8 +13,9 @@
     "jsx": "react-jsx",
     "strict": true,
     "paths": {
-      "@peps/avatar-engine": ["../avatar-engine/src/index.ts"],
-      "@peps/avatar-sdk": ["../avatar-sdk/src/index.ts"]
+      "@peps/avatar-engine":       ["../avatar-engine/src/index.ts"],
+      "@peps/avatar-sdk":          ["../avatar-sdk/src/index.ts"],
+      "@peps/voice-avatar-bridge": ["../voice-avatar-bridge/src/index.ts"]
     }
   },
   "include": ["src"]
