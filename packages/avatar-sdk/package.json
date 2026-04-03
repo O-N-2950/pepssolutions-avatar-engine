@@ -1,0 +1,21 @@
+{
+  "name": "@peps/avatar-sdk",
+  "version": "0.1.0",
+  "description": "Drop-in avatar widget — 3 lines of code to add an animated avatar with lip-sync to any website",
+  "main": "dist/peps-avatar.js",
+  "module": "dist/peps-avatar.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm,iife --global-name PepsAvatar --dts --minify",
+    "dev": "tsup src/index.ts --format cjs,esm,iife --global-name PepsAvatar --dts --watch"
+  },
+  "dependencies": {
+    "@peps/avatar-engine": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  },
+  "files": ["dist"],
+  "license": "MIT"
+}
