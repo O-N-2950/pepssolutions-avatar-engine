@@ -4,18 +4,18 @@
   "private": true,
   "description": "PEPs Solutions — Real-time animated avatar engine with lip-sync, spring physics, and photo-to-avatar AI",
   "workspaces": [
-    "packages/*",
-    "server"
+    "packages/*"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:demo\"",
-    "dev:server": "cd server && npm run dev",
+    "dev": "concurrently \"npm run dev:bridge\" \"npm run dev:demo\"",
+    "dev:bridge": "cd packages/voice-avatar-bridge && npm run dev",
     "dev:demo": "cd packages/demo-app && npm run dev",
-    "build": "npm run build:engine && npm run build:sdk && npm run build:demo && npm run build:server",
+    "build": "npm run build:engine && npm run build:sdk && npm run build:bridge && npm run build:demo",
     "build:engine": "cd packages/avatar-engine && npm run build",
     "build:sdk": "cd packages/avatar-sdk && npm run build",
+    "build:bridge": "cd packages/voice-avatar-bridge && npm run build",
     "build:demo": "cd packages/demo-app && npm run build",
-    "build:server": "cd server && npm run build"
+    "start": "cd packages/demo-app && npm run preview"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
