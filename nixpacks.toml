@@ -1,0 +1,15 @@
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+
+[phases.install]
+cmds = ["npm install --workspaces --include-workspace-root"]
+
+[phases.build]
+cmds = [
+  "cd packages/avatar-engine && npx tsup src/index.ts --format cjs,esm --dts --no-splitting || true",
+  "cd packages/voice-avatar-bridge && npx tsup src/index.ts --format cjs,esm --dts --no-splitting || true",
+  "cd packages/demo-app && npx vite build"
+]
+
+[start]
+cmd = "npx serve packages/demo-app/dist -p $PORT -s"
