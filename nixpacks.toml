@@ -1,14 +1,16 @@
 [phases.setup]
 nixPkgs = ["nodejs_20"]
+nixLibs = []
+cmds = ["npm install -g pnpm@9"]
 
 [phases.install]
-cmds = ["npm install --workspaces --include-workspace-root"]
+cmds = ["pnpm install --frozen-lockfile=false"]
 
 [phases.build]
 cmds = [
-  "cd packages/avatar-engine && npx tsup src/index.ts --format cjs,esm --dts --no-splitting || true",
-  "cd packages/voice-avatar-bridge && npx tsup src/index.ts --format cjs,esm --dts --no-splitting || true",
-  "cd packages/demo-app && npx vite build"
+  "pnpm --filter @peps/avatar-engine run build || true",
+  "pnpm --filter @peps/voice-avatar-bridge run build || true",
+  "pnpm --filter @peps/demo-app run build"
 ]
 
 [start]
