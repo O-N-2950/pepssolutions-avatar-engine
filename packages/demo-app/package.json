@@ -11,6 +11,7 @@
   "dependencies": {
     "@peps/avatar-engine": "workspace:*",
     "@peps/avatar-sdk": "workspace:*",
+    "@peps/voice-avatar-bridge": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
