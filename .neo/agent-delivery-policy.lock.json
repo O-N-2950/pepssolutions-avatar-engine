@@ -2,16 +2,13 @@
   "kind": "NEO_AGENT_DELIVERY_PIN_V1",
   "repository": "O-N-2950/pepssolutions-avatar-engine",
   "sourceRepository": "O-N-2950/neo-core",
-  "sourceCommitSha": "d8e6da0a61c118e11abe9827e8e8ff079eb0d2f8",
+  "sourceCommitSha": "7277bf78ee2e697713c834f7ff59414a4eae944d",
   "sourcePath": "knowledge/governance/agent-delivery-policy.v1.json",
-  "policyVersion": "1.0.0",
-  "canonicalContentSha256": "3b3d9a6bdfdd1cfe2a42a8ee20936a0c4619757af00bcf5cce66832d6e5550ef",
+  "policyVersion": "1.2.0",
+  "canonicalContentSha256": "3aaeeac9b172723842846ba43e76cefdc6ca70c1245fa3c52ef6802467125ea5",
   "entrypoints": [
     "AGENTS.md",
     "CLAUDE.md"
   ],
-  "state": "CANDIDATE_NOT_ENFORCED",
-  "optionalEntrypoints": [
-    "GEMINI.md"
-  ]
+  "state": "CANDIDATE_NOT_ENFORCED"
 }

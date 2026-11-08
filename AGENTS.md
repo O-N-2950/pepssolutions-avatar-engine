@@ -1,32 +1,39 @@
 <!-- NEO_AGENT_DELIVERY_POLICY_V1:START -->
 ## NEO Agent Delivery Policy — version épinglée
 Repo : O-N-2950/pepssolutions-avatar-engine
-Source : O-N-2950/neo-core@d8e6da0a61c118e11abe9827e8e8ff079eb0d2f8:knowledge/governance/agent-delivery-policy.v1.json
-Version : 1.0.0 | sha256:3b3d9a6bdfdd1cfe2a42a8ee20936a0c4619757af00bcf5cce66832d6e5550ef
+Source : O-N-2950/neo-core@7277bf78ee2e697713c834f7ff59414a4eae944d:knowledge/governance/agent-delivery-policy.v1.json
+Version : 1.2.0 | sha256:3aaeeac9b172723842846ba43e76cefdc6ca70c1245fa3c52ef6802467125ea5
 Lire d'abord les règles locales et docs/NORTH_STAR.md du produit.
-Branches Git : dev pour développer/intégrer ; branche par défaut réelle pour livrer.
+Développement : commits atomiques poussés directement sur dev, sans PR vers dev.
+Exception : seulement si GitHub l’impose techniquement, une PR pour tout le lot.
+Livraison : une seule PR dev vers production, réutilisée par application et étape.
+Étapes : V1, V2, V3, V4, finale puis confirmation commerciale ; gain client et tests verts, sans attendre la perfection.
+Sécurité ou bug client en production : livraison immédiate par la même PR unique.
+Mesure hebdomadaire des PR par application et de l’occupation réelle des runners, en parallèle sans blocage.
+Revue de capacité le 22 novembre 2026 : proposer puis réduire progressivement 10 vers 5, puis ajuster.
+Cette décision du 8 novembre remplace toute ancienne consigne de PR vers dev ou de PR de diffusion.
 Pas de certification lourde automatique par commit dev ou PR brouillon.
 Une version prête : certification complète avant une seule fusion vers main/master.
-Un check NEO CI / tests vert n'autorise pas la fusion à lui seul.
+Autofusion NEO Factory uniquement pour les dépôts éligibles ; NEO Core et les dépôts dédiés listés dans OWNER_AUTOMERGE_DECISION_2026-11-02.md restent hors autofusion jusqu'à décision propriétaire explicite.
 Les consignes locales plus strictes restent applicables ; UNKNOWN reste UNKNOWN.
 - **ADP-001 PRODUCT_NORTH_STAR** : Chaque produit garde sa North Star, ses données et règles métier ; aucune instruction globale ne peut remplacer cette autorité.
 - **ADP-002 VERIFY_CURRENT_CODE** : Avant travail lire les instructions, le HEAD réel, la base et les PR concurrentes ; les souvenirs et descriptions ne prouvent pas le code.
-- **ADP-003 FEATURE_BRANCH** : Développer sur la branche Git dev, éventuellement via des branches feature courtes ; commits atomiques et aucun push direct sur main ou master après bootstrap.
-- **ADP-004 NO_MICRO_PR** : Ne pas ouvrir une PR par commit ; regrouper plusieurs commits en une fonctionnalité ou unité de revue cohérente.
-- **ADP-005 BATCH_INTEGRATION** : Regrouper les changements compatibles sur dev par application, tracer leur provenance et les collisions, puis préparer une seule PR de version vers la branche par défaut réelle.
-- **ADP-006 RISK_TIERED_TESTS** : Exécuter T0/T1 rapides pendant le développement et T2 sur le lot ; aucune CI lourde automatique par commit dev ou PR brouillon ; réserver T3 au candidat figé prêt et T4 à la livraison.
+- **ADP-003 FEATURE_BRANCH** : Pousser directement les commits atomiques sur dev, sans PR vers dev. Une PR vers dev uniquement si GitHub l’impose techniquement ; regrouper alors tout le lot. Aucun push direct sur main ou master après bootstrap.
+- **ADP-004 NO_MICRO_PR** : Aucune PR de développement par commit ou fonctionnalité. Réutiliser une seule PR de livraison dev vers la branche réelle de production par application et par étape.
+- **ADP-005 BATCH_INTEGRATION** : Regrouper les changements compatibles sur dev, conserver provenance et collisions, puis livrer une étape utile V1, V2, V3, V4, finale et confirmation commerciale. Une étape part dès qu’elle apporte un vrai gain client et que les tests applicables sont verts, sans attendre la perfection finale. Sécurité ou bug client en production : livraison immédiate par la même PR unique.
+- **ADP-006 RISK_TIERED_TESTS** : Exécuter T0/T1 rapides pendant le développement et T2 sur le lot ; aucune CI lourde automatique par commit dev ou PR brouillon ; une PR terminée sort du brouillon pour être testée puis fusionnée ; réserver T3 au candidat figé prêt et T4 à la livraison.
 - **ADP-007 FAIL_CLOSED_CI** : BLOCKED, UNKNOWN, neutral, NON_SUPPORTED, workflow manquant ou couverture incomplète ne sont jamais un succès.
 - **ADP-008 DEDUPE_BLOCKED** : Ne pas répéter indéfiniment une même panne d'infrastructure avec entrées identiques ; enregistrer empreinte, propriétaire et condition de relance.
 - **ADP-009 FAIR_QUEUE** : Protéger les anciennes PR éligibles contre la famine par priorité liée à l'attente persistée et alternance entre produits.
 - **ADP-010 REFRESH_ONLY_EVIDENCE** : L'âge d'une PR ne l'invalide pas ; rafraîchir la seule preuve temporaire nécessaire sans refaire la suite inchangée.
 - **ADP-011 EXACT_RELEASE_IDENTITY** : Certifier le SHA, l'arbre Git, les workflows applicables et l'artefact immuable de la release candidate finale.
-- **ADP-012 REQUIRE_AUTHORITY_GATE** : Un check NEO CI / tests vert n'autorise pas seul la fusion ; exiger toutes les portes métier, sécurité, canonique et autorité requises.
+- **ADP-012 REQUIRE_AUTHORITY_GATE** : Les fusions automatiques de NEO Factory s'appliquent uniquement aux dépôts éligibles par décision propriétaire vérifiée. NEO Core et les autres dépôts à traitement dédié listés dans OWNER_AUTOMERGE_DECISION_2026-11-02.md restent hors autofusion jusqu'à décision propriétaire explicite levant leur exception. Pour les dépôts éligibles, aucune confirmation de routine n'est demandée ; toutes les portes de sécurité, chemins sensibles, anti-collision, produit et autorité restent obligatoires.
 - **ADP-013 ATOMIC_PROMOTION** : Fusionner la version une seule fois par PR avec expected-head SHA, certification complète préalable et contrôle anti-collision ; promouvoir seulement le digest réellement testé.
 - **ADP-014 PROVE_RUNTIME_AND_UX** : Vérifier l'artefact et SHA effectivement servis, santé, parcours métier, UX/accessibilité et restauration sans régression.
 - **ADP-015 ISOLATE_SECURITY** : Aucun secret ou donnée client dans les prompts/CI ni accès inter-produit implicite ; respecter scopes, confidentialité et isolation.
-- **ADP-016 CONTROL_REAL_COST** : Mesurer coûts et quotas réels par livraison ; distinguer alerte de budget d'un plafond effectif chez le fournisseur.
+- **ADP-016 CONTROL_REAL_COST** : Mesurer chaque semaine les PR ouvertes par application et l’occupation réelle des runners NEO CI, en parallèle sans bloquer développement ou livraison. Au 22 novembre 2026, proposer la capacité à garder puis arrêter progressivement les runners excédentaires (10 vers 5, puis ajuster), sans interrompre les jobs actifs. Coûts réels sourcés, inconnus conservés.
 - **ADP-017 EVIDENCE_NOT_CLAIMS** : Séparer code, tests, CI, fusion, runtime et cas réel ; jamais 100 % North Star sans preuves sur la version livrée.
-- **ADP-018 ROLLOUT_WITHOUT_BIG_BANG** : Diffuser par PR locales, version et empreinte épinglées en préservant les instructions produits ; aucun déploiement transversal forcé.
+- **ADP-018 ROLLOUT_WITHOUT_BIG_BANG** : Diffuser directement sur dev dans AGENTS.md et CLAUDE.md, avec version et empreinte épinglées, en préservant les instructions métier ; aucune PR de diffusion par dépôt. Cette décision remplace les anciennes consignes de PR vers dev.
 T0/T1 : rapidité ; T2 : arbre combiné ; T3 : certification exacte ; T4 : version servie.
 Si la source/empreinte manque : rester sur branche et bloquer la release non prouvée.
 <!-- NEO_AGENT_DELIVERY_POLICY_V1:END -->
