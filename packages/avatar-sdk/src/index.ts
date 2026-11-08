@@ -189,9 +189,10 @@ export function create(options: AvatarWidgetOptions): AvatarWidget {
     },
 
     updateConfig(newConfig: Partial<AvatarConfig>) {
-      Object.assign(avatarConfig, newConfig)
-      if (newConfig.colors) Object.assign(avatarConfig.colors, newConfig.colors)
-      if (newConfig.features) Object.assign(avatarConfig.features, newConfig.features)
+      const { colors, features, ...rest } = newConfig
+      Object.assign(avatarConfig, rest)
+      if (colors) Object.assign(avatarConfig.colors, colors)
+      if (features) Object.assign(avatarConfig.features, features)
     },
   }
 
@@ -203,3 +204,4 @@ export function create(options: AvatarWidgetOptions): AvatarWidget {
 // Re-export types for SDK consumers
 export type { Expression, VisemeEvent, AvatarConfig, AvatarColors, AvatarFeatures } from "@peps/avatar-engine"
 export { PRESET_WINIE, PRESET_WINI } from "@peps/avatar-engine"
+

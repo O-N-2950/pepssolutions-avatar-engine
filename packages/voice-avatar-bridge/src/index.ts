@@ -166,11 +166,18 @@ export class VoiceAvatarBridge {
 
   connect(): void {
     if (this.destroyed) return
-    if (this.ws?.readyState === WebSocket.OPEN) return
+    if (this.ws && (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING)) return
 
+    const url = new URL(this.opts.url)
+    if (url.protocol !== "wss:" && url.protocol !== "ws:") {
+      throw new Error("Voice bridge requires a WebSocket URL")
+    }
+    if (url.username || url.password) throw new Error("Credentials in voice URLs are forbidden")
+    url.searchParams.set("tenant", this.opts.tenant)
+    url.searchParams.set("agent", this.opts.agent)
+    this.clearReconnectTimer()
     this.setState("connecting")
-    const url = `${this.opts.url}?tenant=${this.opts.tenant}&agent=${this.opts.agent}`
-    this.ws = new WebSocket(url)
+    this.ws = new WebSocket(url.toString())
     this.ws.binaryType = "arraybuffer"
 
     this.ws.onopen = () => {
@@ -193,6 +200,7 @@ export class VoiceAvatarBridge {
     }
 
     this.ws.onclose = (ev) => {
+      this.stopKeepalive()
       this.stopMicrophone()
       this.setState("disconnected")
       this.emit("disconnected")
@@ -204,12 +212,14 @@ export class VoiceAvatarBridge {
 
   disconnect(): void {
     this.destroyed = true
+    this.stopKeepalive()
     this.stopMicrophone()
     this.clearReconnectTimer()
     this.ws?.close(1000, "Client disconnect")
     this.ws = null
     cancelAnimationFrame(this.amplitudeAnimFrame)
     this.audioCtx?.close()
+    this.setState("disconnected")
   }
 
   // ── Keepalive ping (Railway closes idle WS after ~60s) ─────────────────────
@@ -223,6 +233,13 @@ export class VoiceAvatarBridge {
         this.sendJson({ type: "ping" })
       }
     }, 20_000)
+  }
+
+  private stopKeepalive(): void {
+    if (this.keepaliveInterval !== null) {
+      clearInterval(this.keepaliveInterval)
+      this.keepaliveInterval = null
+    }
   }
 
   // ── Reconnect logic ─────────────────────────────────────────────────────────
@@ -252,10 +269,10 @@ export class VoiceAvatarBridge {
   // ── Microphone capture → send PCM to voice-core ────────────────────────────
 
   async startMicrophone(): Promise<void> {
-    if (this.micStream) return
+    if (this.destroyed || !this.isConnected() || this.micStream) return
 
     try {
-      this.micStream = await navigator.mediaDevices.getUserMedia({
+      const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           sampleRate: this.opts.sampleRate,
           channelCount: 1,
@@ -265,12 +282,21 @@ export class VoiceAvatarBridge {
         }
       })
 
+      // Permission may resolve after the owner closed the session.
+      if (this.destroyed || !this.isConnected() || this.micStream) {
+        stream.getTracks().forEach(track => track.stop())
+        return
+      }
+      this.micStream = stream
+
       this.audioCtx = this.audioCtx ?? new AudioContext({ sampleRate: this.opts.sampleRate })
 
       const source = this.audioCtx.createMediaStreamSource(this.micStream)
       const chunkSamples = Math.floor(this.opts.sampleRate * (this.opts.chunkMs / 1000))
+      const bufferSize = [256, 512, 1024, 2048, 4096, 8192, 16384]
+        .find(size => size >= chunkSamples) ?? 16384
       // ScriptProcessorNode deprecated but works everywhere without COOP/COEP
-      this.micProcessor = this.audioCtx.createScriptProcessor(chunkSamples, 1, 1)
+      this.micProcessor = this.audioCtx.createScriptProcessor(bufferSize, 1, 1)
 
       this.micProcessor.onaudioprocess = (ev) => {
         if (this.state !== "listening") return
@@ -287,6 +313,7 @@ export class VoiceAvatarBridge {
       this.setState("listening")
       this.emit("expression", "listening")
     } catch (err: any) {
+      this.stopMicrophone()
       this.emit("error", `Microphone error: ${err.message}`)
     }
   }
@@ -469,3 +496,4 @@ export function createBridge(opts: BridgeOptions): VoiceAvatarBridge {
 }
 
 export default { VoiceAvatarBridge, createBridge }
+
