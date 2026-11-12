@@ -4,28 +4,28 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Spring physics
-export { Spring, createSpring, stepSpring, stepAllSprings, springAt, setSpringTarget } from "./spring"
+export type { Spring } from "./spring"
+export { createSpring, stepSpring, stepAllSprings, springAt, setSpringTarget } from "./spring"
 
 // Viseme / lip-sync system
+export type { VisemeType, VisemeEvent, MouthShape } from "./visemes"
 export {
-  VisemeType, VisemeEvent, MouthShape,
   VISEME_SHAPES, phonemeToViseme, getActiveViseme, getMouthShapeAtTime,
 } from "./visemes"
 
 // Animator (state machine for all facial/body animation)
+export type { Expression, IdleBehavior, AnimatorState, AnimatorConfig, UpdateParams } from "./animator"
 export {
-  Expression, IdleBehavior,
-  AnimatorState, AnimatorConfig,
   createAnimator, updateAnimator, getEyeOpenness,
-  UpdateParams,
 } from "./animator"
 
 // Canvas 2D renderer
+export type { AvatarColors, AvatarFeatures, AvatarConfig } from "./renderer"
 export {
-  AvatarColors, AvatarFeatures, AvatarConfig,
   PRESET_WINIE, PRESET_WINI,
   renderAvatar,
 } from "./renderer"
 
 // Audio amplitude analyzer
-export { AudioAnalyzer, createAudioAnalyzer } from "./audio-analyzer"
+export type { AudioAnalyzer } from "./audio-analyzer"
+export { createAudioAnalyzer } from "./audio-analyzer"

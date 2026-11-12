@@ -2,5 +2,11 @@
   "name": "pepssolutions-avatar-engine",
   "version": "0.1.0",
   "private": true,
-  "description": "PEPs Solutions — Avatar Engine SaaS"
+  "description": "PEPs Solutions — Avatar Engine SaaS",
+  "scripts": {
+    "test": "node --test scripts/serve.test.mjs scripts/transcript.test.mjs",
+    "build": "npm --prefix packages/demo-app run build",
+    "typecheck": "npm --prefix packages/demo-app run typecheck",
+    "start": "node scripts/serve.mjs"
+  }
 }

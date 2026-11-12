@@ -2,10 +2,10 @@
 nixPkgs = ["nodejs_20"]
 
 [phases.install]
-cmds = ["cd packages/demo-app && npm install"]
+cmds = ["npm ci --prefix packages/demo-app --ignore-scripts"]
 
 [phases.build]
-cmds = ["cd packages/demo-app && npx vite build"]
+cmds = ["npm run build --prefix packages/demo-app"]
 
 [start]
-cmd = "cd packages/demo-app && npx serve dist -p $PORT -s"
+cmd = "node scripts/serve.mjs"

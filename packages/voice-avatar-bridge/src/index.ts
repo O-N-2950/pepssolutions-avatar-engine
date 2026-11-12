@@ -73,7 +73,7 @@ function float32ToInt16(float32: Float32Array): ArrayBuffer {
 }
 
 /** Decode raw Int16 PCM → Float32 for Web Audio playback */
-function int16ToFloat32(buf: ArrayBuffer): Float32Array {
+function int16ToFloat32(buf: ArrayBuffer) {
   const int16 = new Int16Array(buf)
   const f32 = new Float32Array(int16.length)
   for (let i = 0; i < int16.length; i++) {
@@ -100,7 +100,7 @@ export class VoiceAvatarBridge {
   private audioCtx: AudioContext | null = null
   private micStream: MediaStream | null = null
   private micProcessor: ScriptProcessorNode | null = null
-  private ttsQueue: Float32Array[] = []         // Queued PCM chunks for playback
+  private ttsQueue: ReturnType<typeof int16ToFloat32>[] = []         // Queued PCM chunks for playback
   private ttsPlaying = false
   private ttsScheduledUntil = 0                  // AudioContext.currentTime
   private ttsAmplitude = 0
@@ -418,7 +418,7 @@ export class VoiceAvatarBridge {
   }
 
   private _lastAnalyser: AnalyserNode | null = null
-  private _ampData: Uint8Array | null = null
+  private _ampData = new Uint8Array(0)
 
   private startAmplitudeLoop(): void {
     cancelAnimationFrame(this.amplitudeAnimFrame)

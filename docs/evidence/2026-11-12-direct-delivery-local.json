@@ -1,0 +1,71 @@
+{
+  "kind": "LOCAL_PREPARATION_EVIDENCE",
+  "recordedAt": "2026-11-12T06:12:37+01:00",
+  "repository": "O-N-2950/pepssolutions-avatar-engine",
+  "baseSha": "a6db03ee85bbc45e7e0bbcf699269fa2ff6b0bdd",
+  "testedSnapshot": "local working snapshot; not a deployed SHA",
+  "commands": [
+    {
+      "command": "npm ci --prefix packages/demo-app --ignore-scripts",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "tests": 11
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "modules": 41
+    },
+    {
+      "command": "npm audit --prefix packages/demo-app --audit-level=high",
+      "exitCode": 1,
+      "high": 1,
+      "moderate": 1,
+      "scope": "Vite/esbuild build tools"
+    },
+    {
+      "command": "npm audit --prefix packages/demo-app --omit=dev --audit-level=high",
+      "exitCode": 0,
+      "vulnerabilities": 0
+    }
+  ],
+  "browserPasses": 0,
+  "deploymentPerformed": false,
+  "sourceFileSha256": {
+    ".neo/agent-delivery-policy.lock.json": "89ef9d62effe865473f14853b9531c2d43f78f97186841e448f7f4962904f113",
+    "package.json": "5c2b4d6b6e9e6785629db3bb5a636230d944e34fdb693df13f82449fe7460a45",
+    "packages/avatar-engine/package.json": "507d85850fbacbb1cfe9f8badc035ec5ee1f68784aa25be4b4cd50f09428911d",
+    "packages/avatar-engine/src/animator.ts": "9c2483f07b797a40af4588f920f44acf7f1d9248dd9a2f78e7a86836f2d93d80",
+    "packages/avatar-engine/src/audio-analyzer.ts": "c8c51d6a91b4c1c64b92a3035572d2a8837a628fa9017c8c8bc8863718b2ecc0",
+    "packages/avatar-engine/src/index.ts": "28f0b3f8b4ccf5243f1697525f77f9fd126e9eec5e42c2098a581edbec026e0d",
+    "packages/avatar-engine/src/renderer.ts": "c5b64af0393759fbbc7779bc57c3dc967dbbb1caa0212d8ae392cfc457ced2a8",
+    "packages/avatar-engine/src/spring.ts": "aa424d6727001bf29aab9b08e1d6c5188f853ea5124586b4fe2f69bdeb799bd2",
+    "packages/avatar-engine/src/visemes.ts": "e0560085ea87c540089e5146ad0d91bc52001848ab6d36f240ca2fb586cd356b",
+    "packages/avatar-engine/tsconfig.json": "4d3650c1931dbb70a5499aa7e14c653b060addbe71a4eae316f9810444162a2b",
+    "packages/avatar-sdk/package.json": "4e3e5f9a21e01ebd9d1431d31e6a76fd2d46fc7809856ae4ae2840850b3bdd41",
+    "packages/avatar-sdk/src/index.ts": "9659445943e2faa973d31ff42c7a13bf3d77175a0fa1e70ea85182641aa18e34",
+    "packages/avatar-sdk/tsconfig.json": "45aee67202326dbac0be89259ba4a4a33aebe4bf30836a88d519e251c3e632c2",
+    "packages/demo-app/package-lock.json": "be0b30dec9d68c6875117d84d21401d16c91ae192b44312d2f8b22e500c29b55",
+    "packages/demo-app/package.json": "cf7f77dd58c4dad1ee60011e412baf1026aec6a7a2f77a76241371bed34af977",
+    "packages/demo-app/src/App.tsx": "61fee1bc26d01fcd7b945b2855bac4bad13c955ac7d0b0c9b49a0c740952b642",
+    "packages/demo-app/src/AvatarCanvas.tsx": "51863f86e54dd90d73c3312d77c9af0605450f42e04b39f2edade797d55e9526",
+    "packages/demo-app/src/VoiceDemo.tsx": "62263bb5fb862489439ea52fd203f363fb09f2cb45f0912d17557fcdaa6a48bc",
+    "packages/demo-app/src/main.tsx": "e67a547fff5942ee9512520af33e663875e4bdf723a54bf9fdf260505a7e51c3",
+    "packages/demo-app/src/transcript.ts": "1cfdb256112cfbb945ee1229edfa7a5ab82cf2585515b09543e38d2c74a74de6",
+    "packages/demo-app/tsconfig.json": "da56e53f8c035d8449bf9a3bf921a119d16feba6821c7761ad73ceae2f1b90a5",
+    "packages/demo-app/vite.config.ts": "39cd8760c502b3692b8a6a32f796e7b83e5cb66d64fd9f31344ad2008ca4d094",
+    "packages/voice-avatar-bridge/package.json": "82feb32435dca5b70736b00d8e7dd04939573b1ecd0a0591574fe7f211f1b983",
+    "packages/voice-avatar-bridge/src/index.ts": "27464cf7791ea91160b85dd67d39268df10bbd6245ea297223282f12e57b683e",
+    "railway.json": "e66373a82a14aa81a85043bc8b5afdf1cb76825dfb070364aa084fe2ff6c99c1",
+    "scripts/serve.mjs": "46135d3b1b4677b1f2749dbce60296fbc8d261fe02e7311fa5d562ec6dae857e",
+    "scripts/serve.test.mjs": "df74c89b002f35d96a799774f71e13c1ff7ef699c9c45ed467941c8c80bee81a",
+    "scripts/transcript.test.mjs": "c26f9f2f8c77176fca1649adab497976e86e71bf171ee909f856a4e1f6106306"
+  }
+}

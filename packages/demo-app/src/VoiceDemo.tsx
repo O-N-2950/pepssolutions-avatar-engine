@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { VoiceAvatarBridge, BridgeState, AvatarExpression } from "@peps/voice-avatar-bridge"
 import { AvatarCanvas } from "./AvatarCanvas"
+import { findLastUnfinished } from "./transcript"
+import type { TranscriptLine } from "./transcript"
 import { PRESET_WINIE, PRESET_WINI } from "@peps/avatar-engine"
 
 const VOICE_CORE_URL = "wss://voice-core-production.up.railway.app/ws"
@@ -21,12 +23,6 @@ const STATE_LABELS: Record<BridgeState, string> = {
   listening:    "🔵 Écoute",
   thinking:     "🟡 Réflexion...",
   speaking:     "🟣 Parle",
-}
-
-interface TranscriptLine {
-  role: "user" | "assistant"
-  text: string
-  final: boolean
 }
 
 export function VoiceDemo() {
@@ -67,11 +63,11 @@ export function VoiceDemo() {
           const next = [...prev]
           if (isFinal) {
             // Replace partial with final
-            const lastUser = next.findLastIndex(l => l.role === "user" && !l.final)
+            const lastUser = findLastUnfinished(next, "user")
             if (lastUser >= 0) next[lastUser] = { role: "user", text, final: true }
             else next.push({ role: "user", text, final: true })
           } else {
-            const lastUser = next.findLastIndex(l => l.role === "user" && !l.final)
+            const lastUser = findLastUnfinished(next, "user")
             if (lastUser >= 0) next[lastUser] = { role: "user", text, final: false }
             else next.push({ role: "user", text, final: false })
           }
@@ -81,7 +77,7 @@ export function VoiceDemo() {
       .on("response", (text) => {
         setTranscript(prev => {
           const next = [...prev]
-          const lastAssistant = next.findLastIndex(l => l.role === "assistant" && !l.final)
+          const lastAssistant = findLastUnfinished(next, "assistant")
           const accumulated = (lastAssistant >= 0 ? next[lastAssistant].text : "") + text
           if (lastAssistant >= 0) next[lastAssistant] = { role: "assistant", text: accumulated, final: false }
           else next.push({ role: "assistant", text: accumulated, final: false })
@@ -256,7 +252,7 @@ export function VoiceDemo() {
               <>
                 <button
                   onClick={toggleMic}
-                  disabled={state === "connecting" || state === "thinking"}
+                  disabled={state === "thinking"}
                   style={{
                     flex: 1, padding: "11px", borderRadius: 9,
                     background: micOn ? "#ef444433" : "#3b82f633",
